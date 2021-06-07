@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+  project-db:
+    image: mysql:8.0
+    container_name: project-mysql-db
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    environment:
+      - MYSQL_DATABASE=ieee_project_application
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./db/:/docker-entrypoint-initdb.d/:ro
+    networks:
+      - backend-network
+
+  project-backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: project-python3-backend
+    container_name: project-python3-backend
+    restart: always
+    depends_on:
+      - project-db
+    environment:
+      - FLASK_APP=./server.py
+      - FLASK_DEBUG=1
+    ports:
+      - 5000:5000
+    volumes:
+      - ./src:/code
+    networks:
+      - backend-network
+      - frontend-network
+
+volumes:
+  db-data:
+
+networks:
+  backend-network:
+  frontend-network:
