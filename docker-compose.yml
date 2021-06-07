@@ -1,42 +1,43 @@
-version: "3.7"
-services:
-  project-db:
-    image: mysql:8.0
-    container_name: project-mysql-db
-    command: '--default-authentication-plugin=mysql_native_password'
-    restart: always
-    environment:
+version: "3.7" # Version of the docker-compose yaml files, Ref: https://docs.docker.com/compose/compose-file/compose-versioning/
+services: # This is used to describe the config that will form the container network
+  project-db: # This is the service name ( We will not reference the container with this name)
+    image: mysql:8.0 # This is the image used to create the container
+    container_name: project-mysql-db # This is the name of the container
+    command: '--default-authentication-plugin=mysql_native_password' # This is command that will run as soon as the container is created
+    restart: always # This means if the container has some issues while laading them immediately restart
+    environment: # These are the enivronmental values defined in the container
       - MYSQL_DATABASE=ieee_project_application
       - MYSQL_ROOT_PASSWORD=password
-    volumes:
+    volumes: # These are the volumes mounted (directories pointed at) by the container
       - db-data:/var/lib/mysql
       - ./db/:/docker-entrypoint-initdb.d/:ro
-    networks:
+    networks: # This is the division of network
       - backend-network
 
-  project-backend:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    image: project-python3-backend
-    container_name: project-python3-backend
-    restart: always
-    depends_on:
+  project-backend: # This is the service name ( We will not reference the container with this name)
+    build: # This will provide the docker-compose with additional instructions if we need to build our image
+      context: ./ # This points to the directory where our Dockerfile exists
+      dockerfile: Dockerfile # This is the Dockerfile name
+    image: project-python3-backend # This is the name of the image that is used to create the container
+    container_name: project-python3-backend # This is the name of the container
+    restart: always # This means if the container has some issues while laading them immediately restart
+    depends_on: # This field is used to indicate what other container this container depends on
       - project-db
-    environment:
+    environment: # These are the enivronmental values defined in the container
       - FLASK_APP=./server.py
       - FLASK_DEBUG=1
-    ports:
+    ports: # These are the ports mapped between the container and the host machine
       - 5000:5000
-    volumes:
+    volumes: # These are the volumes mounted (directories pointed at) by the container
       - ./src:/code
-    networks:
+    networks: # This is the division of network
       - backend-network
       - frontend-network
 
+# Defining the Volumes used in this docker-compose
 volumes:
   db-data:
-
+# Defining the Networks used in this docker-compose
 networks:
   backend-network:
   frontend-network:

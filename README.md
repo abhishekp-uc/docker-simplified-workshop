@@ -82,6 +82,7 @@ a1804f7de9ca9309b91e68f4918023526d973617702e616f50336db0d482d9e4
 $ docker container ls
 CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                    NAMES
 a1804f7de9ca        ieee-docker-workshop-python-image   "python ./server.py"     24 seconds ago      Up 23 seconds       0.0.0.0:5000->5000/tcp   ieee-docker-workshop-python-container
+# The output below is only different for the NAMES field which is to showcase what would've happened if --name was not provided in the previous step
 # a1804f7de9ca      ieee-docker-workshop-python-image   "python ./server.py"     24 seconds ago      Up 23 seconds       0.0.0.0:5000->5000/tcp   zen_khayyam
 ```
 
@@ -96,7 +97,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 
 
-### Build the conatiners using the docker compose file
+### Build the containers using the docker compose file
 ```shell
 $ docker-compose up -d
 Creating network "ieee-docker-workshop_backend-network" with the default driver
