@@ -1,5 +1,6 @@
 # ieee-docker-workshop
 
+## Prerequisites
 ### Download / Pull the MySQL DB image
 ```shell
 $ docker pull mysql:8.0
@@ -34,7 +35,8 @@ Digest: sha256:3491d1abd29b3f87ca5cb1afd34bc696855a2403df1ff854da55cb6754af1ff8
 Status: Downloaded newer image for python:alpine3.8
 docker.io/library/python:alpine3.8:8.0
 ```
-
+---
+## Learning Docker Docker Basics
 ### Build the contianer docker image
 ```shell
 $ docker build -t ieee-docker-workshop-python-image .
