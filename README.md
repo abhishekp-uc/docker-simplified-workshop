@@ -1,6 +1,17 @@
 # ieee-docker-workshop
 
 ## Prerequisites
+
+### Download / Pull the hello-world example image
+```shell
+$ docker pull hello-world
+Using default tag: latest
+latest: Pulling from library/hello-world
+Digest: sha256:5122f6204b6a3596e048758cabba3c46b1c937a46b5be6225b835d091b90e46c
+Status: Image is up to date for hello-world:latest
+docker.io/library/hello-world:latest
+```
+
 ### Download / Pull the MySQL DB image
 ```shell
 $ docker pull mysql:8.0
@@ -37,6 +48,42 @@ docker.io/library/python:alpine3.8:8.0
 ```
 ---
 ## Learning Docker Docker Basics
+
+### Creating and Running a docker container from an image
+```shell
+$ docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+```
+
+### Check the processes / containers running
+```shell
+$ docker container ls
+CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+a1804f7de9ca        ieee-docker-workshop-python-image   "python ./server.py"     24 seconds ago      Up 23 seconds       0.0.0.0:5000->5000/tcp   ieee-docker-workshop-python-container
+# The output below is only different for the NAMES field which is to showcase what would've happened if --name was not provided in the previous step
+# a1804f7de9ca      ieee-docker-workshop-python-image   "python ./server.py"     24 seconds ago      Up 23 seconds       0.0.0.0:5000->5000/tcp   zen_khayyam
+```
+
 ### Build the contianer docker image
 ```shell
 $ docker build -t ieee-docker-workshop-python-image .
@@ -79,7 +126,7 @@ a1804f7de9ca9309b91e68f4918023526d973617702e616f50336db0d482d9e4
 # You can even combine flags like '-d' & '-p' as '-dp'
 ```
 
-### Check the processes running
+### Check the processes / containers running
 ```shell
 $ docker container ls
 CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                    NAMES
@@ -88,7 +135,7 @@ a1804f7de9ca        ieee-docker-workshop-python-image   "python ./server.py"    
 # a1804f7de9ca      ieee-docker-workshop-python-image   "python ./server.py"     24 seconds ago      Up 23 seconds       0.0.0.0:5000->5000/tcp   zen_khayyam
 ```
 
-### Check the processes running
+### Attach to the container that we just created
 ```shell
 $ docker exec -it ieee-docker-workshop-python-container sh
 /code # python
