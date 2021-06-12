@@ -15,10 +15,10 @@ RUN apk --no-cache add --virtual build-deps-alpine build-base
 RUN apk --no-cache add --virtual mysql-dependencies mariadb-dev
 # API requirements
 RUN pip install --no-cache-dir -r requirements.txt && rm -rf /requirements
-# Deleting MySQL dependencies
-RUN apk del mysql-dependencies
-# Deleting base dependencies
-RUN apk del build-deps-alpine
+## Deleting MySQL dependencies
+#RUN apk del mysql-dependencies
+## Deleting base dependencies
+#RUN apk del build-deps-alpine
 
 # copy the content of the local src directory to the working directory
 COPY src/ .
