@@ -4,8 +4,8 @@ services: # This is used to describe the config that will form the container net
     image: mysql:8.0 # This is the image used to create the container
     container_name: workshop-mysql-db # This is the name of the container
     command: '--default-authentication-plugin=mysql_native_password' # This is command that will run as soon as the container is created
-    restart: always # This means if the container has some issues while laading them immediately restart
-    environment: # These are the enivronmental values defined in the container
+    restart: always # This means if the container has some issues while loading them immediately restart
+    environment: # These are the environmental values defined in the container
       - MYSQL_DATABASE=ieee_project_application
       - MYSQL_ROOT_PASSWORD=password
     volumes: # These are the volumes mounted (directories pointed at) by the container
@@ -13,19 +13,23 @@ services: # This is used to describe the config that will form the container net
       - ./db/:/docker-entrypoint-initdb.d/:ro
     networks: # This is the division of network
       - backend-network
+    expose:
+      - 33060
 
   project-backend: # This is the service name ( We will not reference the container with this name)
     build: # This will provide the docker-compose with additional instructions if we need to build our image
       context: ./ # This points to the directory where our Dockerfile exists
       dockerfile: Dockerfile # This is the Dockerfile name
     image: workshop-flask-app # This is the name of the image that is used to create the container
-    container_name: project-python3-backend # This is the name of the container
-    restart: always # This means if the container has some issues while laading them immediately restart
+    container_name: workshop-python3-backend # This is the name of the container
+    restart: always # This means if the container has some issues while loading them immediately restart
     depends_on: # This field is used to indicate what other container this container depends on
       - project-db
-    environment: # These are the enivronmental values defined in the container
+    environment: # These are the environmental values defined in the container
       - FLASK_APP=./server.py
       - FLASK_DEBUG=1
+      - MYSQL_DATABASE=ieee_project_application
+      - MYSQL_ROOT_PASSWORD=password
     ports: # These are the ports mapped between the container and the host machine
       - 5000:5000
     volumes: # These are the volumes mounted (directories pointed at) by the container

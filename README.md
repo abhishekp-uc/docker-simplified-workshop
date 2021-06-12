@@ -148,7 +148,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ### Build the containers using the docker compose file
 ```shell
-$ docker-compose up -d
+$ docker-compose up --build -d
 Creating network "ieee-docker-workshop_backend-network" with the default driver
 Creating network "ieee-docker-workshop_frontend-network" with the default driver
 Creating project-mysql-db        ... done
