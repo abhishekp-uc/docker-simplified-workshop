@@ -24,8 +24,9 @@ services: # This is used to describe the config that will form the container net
     container_name: workshop-python3-backend # This is the name of the container
 #    command: 'flask run --host=0.0.0.0' # This is command that will run as soon as the container is created
     restart: always # This means if the container has some issues while loading them immediately restart
-    depends_on: # This field is used to indicate what other container this container depends on
-      - project-db
+    command: sleep 10000
+#    depends_on: # This field is used to indicate what other container this container depends on
+#      - project-db
     environment: # These are the environmental values defined in the container
       - FLASK_APP=./server.py
       - FLASK_DEBUG=1
@@ -34,10 +35,10 @@ services: # This is used to describe the config that will form the container net
     ports: # These are the ports mapped between the container and the host machine
       - 5000:5000
     volumes: # These are the volumes mounted (directories pointed at) by the container
-      - ./src:/code
+      - ./src:/app
     networks: # This is the division of network
       - backend-network
-      - frontend-network
+      - frontend-network # For the Challenge: Build a front end for this backend application
 
 # Defining the Volumes used in this docker-compose
 volumes:
@@ -45,4 +46,4 @@ volumes:
 # Defining the Networks used in this docker-compose
 networks:
   backend-network:
-  frontend-network:
+  frontend-network: # For the Challenge: Build a front end for this backend application
