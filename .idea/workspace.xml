@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5997666e-5c25-41a2-84f7-c9faaa4fa579" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/data_extractor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database_connector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/create_table_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/create_table_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +39,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/templates" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/app/src" />
     </key>

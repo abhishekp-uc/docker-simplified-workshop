@@ -1,70 +1,52 @@
-import requests
-import os
-import mysql.connector
+# Import to send response as json data
+import json
+# Import to interact with database
+from database_connector import DBManager
+# Import to get news page as json
+from data_extractor import get_news_page_as_json
 
-from flask import Flask, redirect
+# Imports to make flask work
+from flask import Flask, url_for, redirect, render_template
 from flask import request as flask_request
-from bs4 import BeautifulSoup
-server = Flask(__name__)
-
-
-class DBManager:
-    def __init__(self, database, host="workshop-mysql-db", user="root"):
-        self.connection = mysql.connector.connect(
-            user=user,
-            password=os.environ['MYSQL_ROOT_PASSWORD'],
-            host=host,  # Name of the MySQL DB container as set in the docker-compose file
-            database=database,
-            auth_plugin='mysql_native_password'
-        )
-        self.cursor = self.connection.cursor()
 
 
 # Declare the server
 server = Flask(__name__)
-database_connection = None
 
 
+# Initially we will ask the user to turn on the database connection to the MySQL container
+# This is done so that we can show that we are actually connecting to the database,
+# MySQL Command to check who is logged in -
+# SELECT user, host FROM mysql.user;
 @server.route("/")
 def landing_page():
-    global database_connection
-    database_connection_status = "OFF"
-    landing_page_html = "<h1>Welcome, Database Connection: {db_conn_status}</h1>"
-    if database_connection:
-        database_connection_status = "ON"
-    landing_page_html.format(db_conn_status=database_connection_status)
+    return render_template("index.html", db_manager_status=DBManager.is_connected)
 
 
-# @server.route("/create_db_conn", methods=['GET'])
-# def landing_page():
-#     global database_connection
-#     # Database connection if not created then create
-#     if not database_connection:
-#         database_connection = DBManager(database=os.environ['MYSQL_DATABASE'])
-#     redirect("/")
-#
-#
-# @server.route('/get_news', methods=['GET'])
-# def parse_news_page_html():
-#     global database_connection
-#     # If database connection is created only then proceed otherwise redirect to landing page
-#     if database_connection:
-#         # Declare the news page url
-#         news_page_url = "https://www.indiatoday.in/india?page={page_number}"
-#         # Get the parameter passed by the user
-#         page = flask_request.args.get('page')
-#         # Hit the news page site and get the HTML
-#         html = requests.get(news_page_url.format(page_number=page))
-#         # Create a beautiful soup object
-#         soup = BeautifulSoup(html)
-#         # Parse the HTML and create a list of title and description
-#         title_description_tuple_list = []
-#         for details_div in soup.find_all('div', {'class': 'detail'}):
-#             title_description_tuple_list.serverend((details_div.h2.text, details_div.p.text))
-#         # Insert into database
-#     else:
-#         redirect("/")
+# This function will toggle the database connection on and off
+@server.route("/db_manager", methods=['GET'])
+def db_manager():
+    if not DBManager.is_connected:
+        DBManager.connect()
+    elif DBManager.is_connected:
+        DBManager.disconnect()
+    return redirect(url_for('landing_page'))
+
+
+@server.route('/get_news', methods=['GET'])
+def parse_news_page_html():
+    # If database connection is created only then proceed otherwise redirect to landing page
+    if DBManager.connection:
+        # Get the parameter passed by the user in the url
+        page_no = flask_request.args.get('page', default=0)
+        news_page_json = get_news_page_as_json(page_no=page_no)
+        return json.dumps(news_page_json)
+    else:
+        return redirect(url_for('landing_page'))
 
 
 if __name__ == "__main__":
-    server.run(debug=True, host='0.0.0.0', port=5000)
+    try:
+        server.run(debug=True, host='0.0.0.0', port=5000)
+    finally:
+        DBManager.disconnect()
