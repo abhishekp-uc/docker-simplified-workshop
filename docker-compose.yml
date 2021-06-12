@@ -22,6 +22,7 @@ services: # This is used to describe the config that will form the container net
       dockerfile: Dockerfile # This is the Dockerfile name
     image: workshop-flask-app # This is the name of the image that is used to create the container
     container_name: workshop-python3-backend # This is the name of the container
+#    command: 'flask run --host=0.0.0.0' # This is command that will run as soon as the container is created
     restart: always # This means if the container has some issues while loading them immediately restart
     depends_on: # This field is used to indicate what other container this container depends on
       - project-db

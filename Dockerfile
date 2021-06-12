@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir -r requirements.txt && rm -rf /requirements
 COPY src/ .
 
 # Run the application
-CMD flask run --host=0.0.0.0
+#CMD flask run --host=0.0.0.0
